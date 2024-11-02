@@ -49,10 +49,7 @@
 	transition: all 0.3s;
 }
 
-.logo {
-	height: 40px;
-	width: 40px;
-}
+
 
 .justify-content {
 	justify-content: space-between;
