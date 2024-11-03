@@ -51,3 +51,59 @@
 .navbar a{
     color: bisque;
 }
+
+
+.summary{
+ height: 100px;
+    width: 100%;
+    background-color: antiquewhite;
+}
+
+.summary h2{
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+}
+
+
+.summary .titles{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.transaction{
+    height: 70px;
+    margin-top: 20px;
+    background-color: antiquewhite;
+}
+
+.transaction h2{
+text-align: center;
+    margin-top: 20px;
+    background-color: antiquewhite;
+}
+
+.transaction form{
+    height: 70px;
+    margin-top: 20px;
+    background-color: antiquewhite;
+}
+
+.history{
+    margin-top: 60px;
+    background-color: antiquewhite;
+    padding: 30px;
+}
+
+.history table{
+    height: 50%;
+}
+
+
+.history h2{
+    height: 50%;
+    text-align: center;
+}
