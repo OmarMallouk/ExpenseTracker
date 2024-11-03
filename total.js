@@ -12,6 +12,42 @@ document.addEventListener('DOMContentLoaded', () => {
     let budget = parseFloat(localStorage.getItem('budget')) || 0;
 
 
+
+    transactionForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+        const amount = parseFloat(transactionAmount.value);
+        const description = transactionDescription.value;
+        const type = transactionType.value;
+
+        if (type === 'budget') {
+         const transaction = {
+          id: Date.now().toString(),
+          type: 'budget',
+          amount: amount,
+          description: description,
+          date: new Date().toISOString()
+      };
+        transactions.push(transaction);
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+        } else {
+        const transaction = {
+          id: Date.now().toString(), 
+          type: type,
+          amount: amount,
+          description: description,
+          date: new Date().toISOString()
+        };
+        transactions.push(transaction);
+        localStorage.setItem('transactions', JSON.stringify(transactions));
+      }
+      transactionForm.reset();
+      displayTransactions();
+      summaryUpdate()
+    });
+
+
+
+
     function summaryUpdate(){
         let incomes = 0;
         let expenses = 0;
@@ -24,9 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
       });
 
-      const budgetTransaction = transactions.find(transaction => transaction.type === 'budget');
-      budget = budgetTransaction ? budgetTransaction.amount : 0; 
-      
+        const budgetTransaction = transactions.find(transaction => transaction.type === 'budget');
+        budget = budgetTransaction ? budgetTransaction.amount : 0; 
         const balance = budget + incomes - expenses;
         totalBudget.textContent = budget.toFixed(2);
         totalIncome.textContent = incomes.toFixed(2);
@@ -34,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         totalBalance.textContent = balance.toFixed(2);
     }
 
-    document.getElementById('minB').addEventListener('click', () => filterMinMax('min'));
-    document.getElementById('maxB').addEventListener('click', () => filterMinMax('max'));
+        document.getElementById('minB').addEventListener('click', () => filterMinMax('min'));
+        document.getElementById('maxB').addEventListener('click', () => filterMinMax('max'));
 
     function filterMinMax(e) {
       const sortedTransactions = [...transactions].sort((a, b) => {
@@ -43,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       displayTransactions(sortedTransactions); 
-  }
+    }
 
     function displayTransactions(sortedTransactions = transactions) {
       transactionList.innerHTML = ''; 
@@ -67,42 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryUpdate();
     }
 
-    transactionForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-        const amount = parseFloat(transactionAmount.value);
-        const description = transactionDescription.value;
-        const type = transactionType.value;
-
-    if (type === 'budget') {
-      const transaction = {
-        id: Date.now().toString(),
-        type: 'budget',
-        amount: amount,
-        description: description,
-        date: new Date().toISOString()
-    };
-    transactions.push(transaction);
-    localStorage.setItem('transactions', JSON.stringify(transactions));
-    } else {
-  
-      const transaction = {
-        id: Date.now().toString(), 
-        type: type,
-        amount: amount,
-        description: description,
-        date: new Date().toISOString()
-      };
-  
-
-      transactions.push(transaction);
-      localStorage.setItem('transactions', JSON.stringify(transactions));
-  
-    }
-      transactionForm.reset();
-      displayTransactions();
-      summaryUpdate()
-    });
+   
   
 
     displayTransactions();
