@@ -10,7 +10,6 @@
 }
 
 
-
 .navbar{
     width: 100%;
     height: 120px;
@@ -28,28 +27,12 @@
 
 
 .navbar h1{
-    margin-top: 30px;
-    margin-left: 30px;
-    color: antiquewhite;
-    text-align: left;
-    
-}
-
-.navbar ul{
-    display: flex;
-    justify-content: space-evenly;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 30px;
+    margin-right: 100px;
     color: antiquewhite;
-    list-style: none;
-}
-
-.navbar ul>li{
-    color: bisque;
-}
-
-.navbar a{
-    color: bisque;
+    text-align: center;
+    
 }
 
 
@@ -70,40 +53,149 @@
 
 .summary .titles{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 10px;
 }
 
-.transaction{
-    height: 70px;
-    margin-top: 20px;
-    background-color: antiquewhite;
+.summary p{
+   font-size: 20px;
 }
 
-.transaction h2{
-text-align: center;
-    margin-top: 20px;
+.transaction {
+    padding: 20px; 
     background-color: antiquewhite;
+    margin-top: 20px;
 }
 
-.transaction form{
-    height: 70px;
-    margin-top: 20px;
-    background-color: antiquewhite;
+.transaction h2 {
+    text-align: center;
+    margin-bottom: 20px; 
 }
+
+.transaction form {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.form-group {
+    display: flex; 
+    flex-direction: column;
+    margin-bottom: 15px; 
+    width: 100%; 
+    max-width: 400px; 
+}
+
+.transaction .selection,
+.transaction .describe,
+.transaction .addTrans {
+    width: 25%; 
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.transaction button {
+    padding: 10px 15px; 
+    background-color: #8b9c8b; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin-top: 10px;
+    width: 100%; 
+    max-width: 200px; 
+}
+
+@media (min-width: 600px) {
+    .transaction form {
+        flex-direction: row; 
+        justify-content: space-between; 
+    }
+
+    .form-group {
+        flex-direction: row; 
+        align-items: center; 
+        width: auto; 
+    }
+
+    .form-group label {
+        margin-right: 10px;
+    }
+
+    .transaction button {
+        width: auto; 
+    }
+}
+
+
 
 .history{
-    margin-top: 60px;
+    margin-top: 20px;
     background-color: antiquewhite;
-    padding: 30px;
 }
 
-.history table{
-    height: 50%;
+
+.history table {
+    margin: 0 auto; 
+    width: 80%; 
+    border-collapse: collapse; 
+    background-color: antiquewhite;
 }
 
+.history th, .history td {
+    padding: 10px; 
+    text-align: center; 
+    border: 1px solid #ccc; 
+}
+
+.history button{
+    padding: 10px 15px; 
+    background-color: #8b9c8b; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.filter {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px; 
+}
+
+.filter button {
+    margin: 0 10px; 
+    padding: 10px 15px; 
+    background-color: #8b9c8b; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin-bottom: 10px;
+}
+
+.filter button:hover {
+    background-color: #b6a232; 
+}
 
 .history h2{
     height: 50%;
+    text-align: center;
+    padding: 10px;
+}
+
+
+
+#footer{
+    background-image: url('/assets/expense1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 200px; 
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }

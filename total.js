@@ -1,16 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const transactionForm = document.getElementById('transaction-form');
-    const transactionType = document.getElementById('transaction-type');
-    const transactionAmount = document.getElementById('transaction-amount');
-    const transactionDescription = document.getElementById('transaction-description');
+    const transactionForm = document.getElementById('transactionForm');
+    const transactionType = document.getElementById('transactionType');
+    const transactionAmount = document.getElementById('transactionAmount');
+    const transactionDescription = document.getElementById('transactionDescription');
     const transactionList = document.getElementById('transaction-list');
-  
-
     const totalBudget = document.getElementById('budget')
-    const totalIncome = document.getElementById('total-income');
-    const totalExpense = document.getElementById('total-expense');
+    const totalIncome = document.getElementById('totalIncome');
+    const totalExpense = document.getElementById('totalExpense');
     const totalBalance = document.getElementById('balance');
-
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     let budget = parseFloat(localStorage.getItem('budget')) || 0;
 
@@ -28,16 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         const balance = budget + incomes - expenses;
-
         totalBudget.textContent = budget.toFixed(2);
         totalIncome.textContent = incomes.toFixed(2);
         totalExpense.textContent = expenses.toFixed(2);
         totalBalance.textContent = balance.toFixed(2);
     }
 
-    function displayTransactions() {
+    document.getElementById('minB').addEventListener('click', () => filterMinMax('min'));
+    document.getElementById('maxB').addEventListener('click', () => filterMinMax('max'));
+
+    function filterMinMax(e) {
+      const sortedTransactions = [...transactions].sort((a, b) => {
+        return e === 'min' ? a.amount - b.amount : b.amount - a.amount;
+      });
+      
+      displayTransactions(sortedTransactions); 
+  }
+
+    function displayTransactions(sortedTransactions = transactions) {
       transactionList.innerHTML = ''; 
-      transactions.forEach(transaction => {
+      sortedTransactions.forEach(transaction => {
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${new Date(transaction.date).toLocaleDateString()}</td>
@@ -57,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryUpdate();
     }
 
-
     transactionForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -70,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('budget', budget);
     } else {
   
-      // Create a transaction 
       const transaction = {
         id: Date.now().toString(), 
         type: type,
@@ -85,8 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
     }
       transactionForm.reset();
-  
-      // Update the display
       displayTransactions();
       summaryUpdate()
     });
