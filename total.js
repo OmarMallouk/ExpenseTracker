@@ -16,14 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let incomes = 0;
         let expenses = 0;
 
-        transactions.forEach(transaction =>{
-            if(transaction.type === 'income'){
-                incomes += transaction.amount;
-            }else if(transaction.type === 'expense'){
-                expenses += transaction.amount;
-            }
-        })
+        transactions.forEach(transaction => {
+          if (transaction.type === 'income') {
+              incomes += transaction.amount;
+          } else if (transaction.type === 'expense') {
+              expenses += transaction.amount;
+          }
+      });
 
+      const budgetTransaction = transactions.find(transaction => transaction.type === 'budget');
+      budget = budgetTransaction ? budgetTransaction.amount : 0; 
+      
         const balance = budget + incomes - expenses;
         totalBudget.textContent = budget.toFixed(2);
         totalIncome.textContent = incomes.toFixed(2);
@@ -72,8 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = transactionType.value;
 
     if (type === 'budget') {
-      budget = amount;
-      localStorage.setItem('budget', budget);
+      const transaction = {
+        id: Date.now().toString(),
+        type: 'budget',
+        amount: amount,
+        description: description,
+        date: new Date().toISOString()
+    };
+    transactions.push(transaction);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
     } else {
   
       const transaction = {
