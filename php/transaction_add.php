@@ -5,22 +5,21 @@ include 'db_connect.php';
 
 $amount = $_POST['amount'];
 $type = $_POST['type'];
-$category = $_POST['category'];
+$description = $_POST['description'];
 $date = $_POST['date'];
 $notes = isset($_POST['notes']) ? $_POST['notes'] : '';
 
-// Prepare and execute the SQL statement to insert the transaction
-$sql = "INSERT INTO transactions (amount, type, category, date, notes) VALUES (?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("dssss", $amount, $type, $category, $date, $notes);
+$sql = "INSERT INTO transactions (amount, type, description, date) VALUES (?, ?, ?, ?, ?)";
+$query = $conn->prepare($sql);
+$query->bind_param("dssss", $amount, $type, $description, $date);
 
-if ($stmt->execute()) {
+if ($query->execute()) {
     echo json_encode(["success" => true]);
 } else {
-    echo json_encode(["success" => false, "error" => $stmt->error]);
+    echo json_encode(["success" => false, "error" => $query->error]);
 }
 
-// Close the connection
-$stmt->close();
+
+$query->close();
 $conn->close();
 ?>
