@@ -37,14 +37,27 @@ document.addEventListener('DOMContentLoaded', () => {
           description: description,
           date: new Date().toISOString()
         };
-        transactions.push(transaction);
-        localStorage.setItem('transactions', JSON.stringify(transactions));
-      }
+        fetch('http://localhost/ExpenseTracker/php/add_transaction.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(transaction),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log('Transaction saved to the database!');
+          } else {
+            console.error('Error saving transaction to database:', data.error);
+          }
+        })
+        .catch(error => console.error('Error with fetch:', error));
       transactionForm.reset();
       displayTransactions();
       summaryUpdate()
-    });
-
+  }  });
+  
 
 
 
