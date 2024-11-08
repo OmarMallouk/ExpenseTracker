@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/utilities.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -31,6 +32,7 @@
 
         <section id="addTransaction" class="transaction">
           <h2>Add Transaction</h2>
+
           <form id="transactionForm" class="form">
             <label for="transactionType">Type:</label>
             <select id="transactionType" name="transactionType" class="selection">
@@ -38,6 +40,7 @@
               <option value="expense">Expense</option>
               <option value="budget">Budget</option>
             </select>
+            
             <label for="transactionAmount">Amount:</label>
             <input class="describe" type="number" id="transactionAmount" name="transactionAmount" required>
     

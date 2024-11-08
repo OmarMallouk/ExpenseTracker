@@ -11,6 +11,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     let budget = parseFloat(localStorage.getItem('budget')) || 0;
 
+ const userId = 1;
+
+ axios.get(`http://localhost/ExpenseTracker/php/amount_get.php?user_id=${userId}`)
+        .then(response => {
+            if (response.data && Array.isArray(response.data)) {
+                transactions = response.data; // Set transactions from database
+                // localStorage.setItem('transactions', JSON.stringify(transactions)); // Sync with local storage
+                displayTransactions();
+                summaryUpdate();
+            } else {
+                console.error('Error fetching transactions:', response.data.error);
+            }
+        })
+        .catch(error => console.error('Error with axios GET request:', error));
+
+ 
+   
 
 
     transactionForm.addEventListener('submit', (e) => {
@@ -19,17 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const description = transactionDescription.value;
         const type = transactionType.value;
 
-        if (type === 'budget') {
-         const transaction = {
-          id: Date.now().toString(),
-          type: 'budget',
-          amount: amount,
-          description: description,
-          date: new Date().toISOString()
-      };
-        transactions.push(transaction);
-        localStorage.setItem('transactions', JSON.stringify(transactions));
-        } else {
+      //   if (type === 'budget') {
+      //    const transaction = {
+      //     id: Date.now().toString(),
+      //     type: 'budget',
+      //     amount: amount,
+      //     description: description,
+      //     date: new Date().toISOString()
+      // };
+      //   transactions.push(transaction);
+      //   localStorage.setItem('transactions', JSON.stringify(transactions));
+      //   } else {
         const transaction = {
           id: Date.now().toString(), 
           type: type,
@@ -37,27 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
           description: description,
           date: new Date().toISOString()
         };
-        fetch('http://localhost/ExpenseTracker/php/add_transaction.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(transaction),
+        axios.post('http://localhost/ExpenseTracker/php/transaction_add.php', transaction)
+        .then(response => {
+            if (response.data.success) {
+                console.log('Transaction saved to the database!');
+                transactions.push(transaction);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                transactionForm.reset();
+                displayTransactions();
+                summaryUpdate();
+            } else {
+                console.error('Error saving transaction to database:', response.data.error);
+            }
         })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            console.log('Transaction saved to the database!');
-          } else {
-            console.error('Error saving transaction to database:', data.error);
-          }
-        })
-        .catch(error => console.error('Error with fetch:', error));
-      transactionForm.reset();
-      displayTransactions();
-      summaryUpdate()
-  }  });
-  
+        .catch(error => console.error('Error with axios:', error));
+});
 
 
 
@@ -94,14 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayTransactions(sortedTransactions = transactions) {
+      
       transactionList.innerHTML = ''; 
       sortedTransactions.forEach(transaction => {
         const row = document.createElement('tr');
+        const date = transaction.date ? new Date(transaction.date).toLocaleDateString() : 'N/A';
         row.innerHTML = `
-          <td>${new Date(transaction.date).toLocaleDateString()}</td>
+          <td>${date}</td>
           <td>${transaction.description}</td>
           <td>${transaction.type}</td>
-          <td>$${transaction.amount.toFixed(2)}</td>
+          <td>$${transaction.amount}</td>
           <td><button onclick="deleteTransaction('${transaction.id}')">Delete</button></td>
         `;
         transactionList.appendChild(row);
