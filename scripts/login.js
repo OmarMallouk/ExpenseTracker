@@ -11,7 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         if (response.data.success) {
             localStorage.setItem('user_id', response.data.user_id);
             console.log('User logged in, user_id saved to localStorage');
-            window.location.href = 'http://localhost/ExpenseTracker/index.html'; // Redirect on successful login
+            window.location.href = 'http://localhost/ExpenseTracker/pages/tracker.html';
           
         } else {
             

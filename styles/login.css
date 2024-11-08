@@ -8,9 +8,9 @@ body {
     margin: 0;
 }
 .login-container {
-    width: 300px;
-    padding: 20px;
-    background: #ffffff;
+    width: 40%;
+    padding: 40px;
+    background: #f1ecec;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -54,9 +54,9 @@ body {
 
 
 .signup-container {
-    width: 300px;
-    padding: 20px;
-    background: #ffffff;
+    width: 40%;
+    padding: 40px;
+    background: #f1ecec;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -83,7 +83,7 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 1em;
-    background-color: #4CAF50;
+    background-color: #4caf4fa1;
     color: white;
     border: none;
     border-radius: 4px;
@@ -97,3 +97,7 @@ body {
     text-align: center;
     font-size: 0.9em;
 }
+
+a{
+    font-size: 22px;
+ }

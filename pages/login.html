@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://localhost/ExpenseTracker/styles/login.css">
-    <title>Signup</title>
+    <title>Login</title>
     
 </head>
 <body>
 
-<div class="signup-container">
-    <h2>Signup</h2>
-    <form id="signupForm">
+<div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -20,13 +20,14 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn">Signup</button>
+        <button type="submit" class="btn">Login</button>
+        <a href="http://localhost/ExpenseTracker/index.html">signup?</a>
         <div id="errorMessage" class="error-message"></div>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="http://localhost/ExpenseTracker/scripts/signup.js"></script>
+<script src="http://localhost/ExpenseTracker/scripts/login.js"></script>
 
 </body>
 </html>

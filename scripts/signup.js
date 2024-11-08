@@ -9,7 +9,7 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     })
     .then(response => {
         if (response.data.success) {
-            window.location.href = 'http://localhost/ExpenseTracker/login.html'; // Redirect to login page on successful signup
+            window.location.href = 'http://localhost/ExpenseTracker/pages/login.html'; 
         } else {
             document.getElementById('errorMessage').textContent = response.data.error;
         }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="http://localhost/ExpenseTracker/styles/utilities.css">
+    <link rel="stylesheet" href="http://localhost/ExpenseTracker/styles/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+  
+    <nav class="navbar flex">
+        <div class="logo"> 
+            <img src="http://localhost/ExpenseTracker/assets/ex3.png" alt="moneyy">
+        </div>
+        <h1>Expense Tracker</h1>
+      </nav>
+
+      <main>
+        <section id="budget-summary" class="summary">
+          <div>
+          <h2>Budget Summary</h2>
+        </div>
+        <div class="titles">
+          <p><strong>Budget:</strong> $<span id="budget">0</span></p>
+          <p><strong>Total Income:</strong> $<span id="totalIncome">0</span></p>
+          <p><strong>Total Expense:</strong> $<span id="totalExpense">0</span></p>
+          <p><strong>Balance:</strong> $<span id="balance">0</span></p>
+        </div>
+        </section>
+
+        <section id="addTransaction" class="transaction">
+          <h2>Add Transaction</h2>
+
+          <form id="transactionForm" class="form">
+            <label for="transactionType">Type:</label>
+            <select id="transactionType" name="transactionType" class="selection">
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+              <option value="budget">Budget</option>
+            </select>
+            
+            <label for="transactionAmount">Amount:</label>
+            <input class="describe" type="number" id="transactionAmount" name="transactionAmount" required>
+    
+            <label  for="transactionDescription">Description:</label>
+            <input class="addTrans" type="text" id="transactionDescription" name="transactionDescription" required>
+    
+            <button  type="submit">Add Transaction</button>
+          </form>
+        </section>
+
+        <section id="transaction-history" class="history">
+          <h2>Transaction History</h2>
+          <table >
+            <thead class="table">
+              <tr >
+                <th>Username</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-list">
+            </tbody>
+          </table>
+          <section id="filter-section" class="filter">
+            <button type="button" id="minB">Show Min</button>
+            <button type="button" id="maxB">Show Max</button>
+        </section>
+        </section>
+</main>
+
+<footer id="footer">
+  <h1>Welcome to My Website</h1>
+</footer>
+
+
+<script src="http://localhost/ExpenseTracker/scripts/total.js"></script>
+</body>
+</html>
