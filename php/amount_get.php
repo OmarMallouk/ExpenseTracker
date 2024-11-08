@@ -23,7 +23,7 @@ while ($row = $result->fetch_assoc()) {
     $transactions[] = $row;
 }
 
-echo json_encode($transactions);
+echo json_encode(['success' => true, 'transactions' => $transactions]);
 
 $query->close();
 $conn->close();
