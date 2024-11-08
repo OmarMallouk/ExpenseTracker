@@ -1,35 +1,34 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+include 'db_connect.php';  
 
-include "db_connect.php";
+if (isset($_GET['id'])) {
+    $transaction_id = $_GET['id'];
 
-// Decode JSON input
-$data = json_decode(file_get_contents("php://input"), true);
-
-// Check if 'id' is provided
-if (isset($data['id'])) {
-    $transaction_id = $data['id'];
-
-    // Prepare and execute delete statement
-    $query = $conn->prepare("DELETE FROM transactions WHERE id = ?");
+    // Checking transaction_id exists
+    $sql = "SELECT * FROM transactions WHERE transaction_id = ?";
+    $query = $conn->prepare($sql);
     $query->bind_param("i", $transaction_id);
+    $query->execute();
+    $result = $query->get_result();
 
-    if ($query->execute()) {
-        echo json_encode(["success" => true]);
+    if ($result->num_rows > 0) {
+        // Transaction exists
+        $deleteSql = "DELETE FROM transactions WHERE transaction_id = ?";
+        $deleteTr = $conn->prepare($deleteSql);
+        $deleteTr->bind_param("i", $transaction_id);
+        if ($deleteTr->execute()) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Error deleting transaction']);
+        }
     } else {
-        echo json_encode(["success" => false, "error" => $query->error]);
+        echo json_encode(['success' => false, 'error' => 'Transaction not found']);
     }
-
-    $query->close();
-    $conn->close();
 } else {
-    echo json_encode(["success" => false, "error" => "Transaction ID is required"]);
+    echo json_encode(['success' => false, 'error' => 'Transaction ID not provided']);
 }
 ?>
