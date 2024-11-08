@@ -12,7 +12,14 @@ if (!$user_id) {
     exit;
 }
 
-$sql = "SELECT * FROM transactions WHERE user_id = ?";
+$sql = "SELECT transactions.transaction_id, transactions.amount, transactions.description, transactions.type, users.username
+        FROM transactions
+        JOIN users ON transactions.user_id = users.user_id";
+
+if ($user_id) {
+    $sql .= " WHERE transactions.user_id = ?";
+}
+
 $query = $conn->prepare($sql);
 $query->bind_param("i", $user_id);
 $query->execute();

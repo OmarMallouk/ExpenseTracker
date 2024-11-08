@@ -1,25 +1,21 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+document.getElementById('signupForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    axios.post('http://localhost/ExpenseTracker/php/login.php', {
+    axios.post('http://localhost/ExpenseTracker/php/create_user.php', {
         username: username,
         password: password
     })
     .then(response => {
         if (response.data.success) {
-            localStorage.setItem('user_id', response.data.user_id);
-            console.log('User logged in, user_id saved to localStorage');
-            window.location.href = 'http://localhost/ExpenseTracker/index.html'; // Redirect on successful login
-          
+            window.location.href = 'http://localhost/ExpenseTracker/login.html'; // Redirect to login page on successful signup
         } else {
-            
             document.getElementById('errorMessage').textContent = response.data.error;
         }
     })
     .catch(error => {
-        console.error('Error during login request:', error);
+        console.error('Error during signup request:', error);
         document.getElementById('errorMessage').textContent = 'An error occurred. Please try again.';
     });
 });

@@ -10,17 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalBalance = document.getElementById('balance');
     let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
     let budget = parseFloat(localStorage.getItem('budget')) || 0;
-    // Handle transaction sorting by amount (min/max)
     document.getElementById('minB').addEventListener('click', () => filterMinMax('min'));
     document.getElementById('maxB').addEventListener('click', () => filterMinMax('max'));
-    const userId = 1;
-  
-     // Fetch transactions from the backend
+    const userId = localStorage.getItem('user_id');
+    console.log('User ID from localStorage on index page:', userId);
+
      axios.get(`http://localhost/ExpenseTracker/php/amount_get.php?user_id=${userId}`)
      .then(response => {
          console.log('Response from backend:', response);
          if (response.data && response.data.success &&  Array.isArray(response.data.transactions)) {
-             transactions = response.data.transactions; // Set transactions from database
+             transactions = response.data.transactions; 
              console.log('Fetched transactions:', transactions);
              displayTransactions();
              summaryUpdate();
@@ -39,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = transactionType.value;
   
         const transaction = {
+            user_id: userId,
             type: type,
             amount: amount,
             description: description,
@@ -62,14 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
   
-    // Display transactions
     function displayTransactions(sortedTransactions = transactions) {
       transactionList.innerHTML = '';
       sortedTransactions.forEach(transaction => {
           const row = document.createElement('tr');
           const date = transaction.date ? new Date(transaction.date).toLocaleDateString() : 'N/A';
           row.innerHTML = `
-              <td>${transaction.transaction_id}</td>
+              <td>${transaction.username}</td>
               <td>${transaction.description}</td>
               <td>${transaction.type}</td>
               <td>$${transaction.amount}</td>
@@ -79,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
   
-  // Delete transaction function
+
   async function deleteTransaction(id) {
   
     if (!id) {
@@ -89,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Attempting to delete transaction with ID:", id);
   
       try {
-        //  DELETE request 
         const response = await axios.delete(`http://localhost/ExpenseTracker/php/delete_transaction.php?id=${id}`);
   
         if (response.data.success) {
@@ -110,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         await refresh(); 
      }
     }
+
   // Refresh transactions from the backend
   async function refresh() {
       try {
@@ -126,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
   
+
     // Update the summary (budget, income, expense, and balance)
     function summaryUpdate() {
         let incomes = 0;
@@ -148,8 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         totalExpense.textContent = expenses.toFixed(2);
         totalBalance.textContent = balance.toFixed(2);
     }
-  
-  
+
     function filterMinMax(e) {
         const sortedTransactions = [...transactions].sort((a, b) => {
             return e === 'min' ? a.amount - b.amount : b.amount - a.amount;

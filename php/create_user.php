@@ -5,13 +5,14 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 include 'db_connect.php';
 $data = json_decode(file_get_contents("php://input"), true);
-$username = $_POST['username'] ?? '';
+$username = $data['username'] ?? '';
+$password = $data['password'] ?? '';
 
-// Check if the username is set and not empty
-if (isset($data['username']) && !empty($data['username'])) {
-    $username = $data['username'];
+if (empty($username) || empty($password)) {
+    echo json_encode(['success' => false, 'error' => 'Username and password are required']);
+    exit;
+}
 
-    // Check if user already exists
     $checkUserSql = "SELECT * FROM users WHERE username = ?";
     $query = $conn->prepare($checkUserSql);
     $query->bind_param("s", $username);
@@ -20,23 +21,23 @@ if (isset($data['username']) && !empty($data['username'])) {
 
     if ($result->num_rows > 0) {
         echo json_encode(['success' => false, 'error' => 'User already exists']);
-        exit;
-    
-    } 
+    } else {
+        
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
       
-    
-    // Create new user
-        $insertSql = "INSERT INTO users (username) VALUES (?)";
-        $query = $conn->prepare($insertSql);
-        $query->bind_param("s", $username);
+        $insertSql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $insertQuery = $conn->prepare($insertSql);
+        $insertQuery->bind_param("ss", $username, $hashedPassword);
 
-        if ($query->execute()) {
+        if ($insertQuery->execute()) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'error' => 'Error creating user']);
         }
     
-} else {
-    echo json_encode(['success' => false, 'error' => 'Username is required']);
-}
-?>
+        $insertQuery->close();
+    }
+    
+    $query->close();
+    $conn->close();
+    ?>
